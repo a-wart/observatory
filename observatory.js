@@ -1,4 +1,4 @@
-// Anton Ignatov, Artem Wart
+// Anton Ignatov, w-art
 if (window.console == null) {
 	window.console = {};
 	console.log = console.info = console.warn = console.debug = console.group = console.groupEnd = console.error = console.time = console.timeEnd = function() {};
@@ -99,16 +99,16 @@ window.WebApp.Observatory = function() {
 			name = events.shift();
 			event = eventMap[name];
 
-			if (event) {
-				for (var i = 0, length = event.length; i < length; i++) {
-					handlerId = event[i];
+			if (!event) {return;}
 
-					if (handlers[handlerId]) {
-						if (!handler || handler == handlers[handlerId]) {
-							if (!context || contexts[handlerId] == context) {
-								// Удаляем обработчик и контекст
-								handlers[handlerId] = contexts[handlerId] = null;
-							}
+			for (var i = 0, length = event.length; i < length; i++) {
+				handlerId = event[i];
+
+				if (handlers[handlerId]) {
+					if (!handler || handler == handlers[handlerId]) {
+						if (!context || contexts[handlerId] == context) {
+							// Удаляем обработчик и контекст
+							handlers[handlerId] = contexts[handlerId] = null;
 						}
 					}
 				}
@@ -183,14 +183,14 @@ window.WebApp.Observatory = function() {
 				mutedNamesMap[name] = 1;
 				event = eventMap[name];
 
-				if (event) {
-					for (var i = 0, length = event.length; i < length; i++) {
-						handlerId = event[i];
+				if (!event) {return;}
 
-						if (!mutedHandlerMap[handlerId]) {
-							mutedHandlerMap[handlerId] = handlers[handlerId];
-							handlers[handlerId] = null;
-						}
+				for (var i = 0, length = event.length; i < length; i++) {
+					handlerId = event[i];
+
+					if (!mutedHandlerMap[handlerId]) {
+						mutedHandlerMap[handlerId] = handlers[handlerId];
+						handlers[handlerId] = null;
 					}
 				}
 			}
@@ -219,14 +219,14 @@ window.WebApp.Observatory = function() {
 			name = events.shift();
 			event = eventMap[name];
 
-			if (event) {
-				for (var i = 0, length = event.length; i < length; i++) {
-					handlerId = event[i];
+			if (!event) {return;}
 
-					if (mutedHandlerMap[handlerId]) {
-						handlers[handlerId] = mutedHandlerMap[handlerId];
-						delete mutedHandlerMap[handlerId];
-					}
+			for (var i = 0, length = event.length; i < length; i++) {
+				handlerId = event[i];
+
+				if (mutedHandlerMap[handlerId]) {
+					handlers[handlerId] = mutedHandlerMap[handlerId];
+					delete mutedHandlerMap[handlerId];
 				}
 			}
 		}
